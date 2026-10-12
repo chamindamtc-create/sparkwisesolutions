@@ -278,12 +278,12 @@
 
     <!-- Hero Section (High-End Full-Width Responsive Automotive-Style Carousel) -->
     <section id="heroSection"
-        class="relative w-full overflow-hidden select-none min-h-[550px] sm:min-h-[600px] h-[75vh] max-h-[820px] bg-slate-950 flex items-center"
+        class="relative w-full overflow-hidden select-none min-h-[580px] sm:min-h-[600px] lg:h-[75vh] lg:max-h-[820px] py-16 sm:py-20 lg:py-0 bg-slate-950 flex items-center"
         onmouseenter="pauseHeroSlider()" onmouseleave="resumeHeroSlider()" ontouchstart="handleTouchStart(event)"
         ontouchend="handleTouchEnd(event)">
 
         <!-- Full-Width Carousel Viewport & Sliding Track (100% Width, All 11 Widescreen Banners) -->
-        <div id="heroCarouselViewport" class="absolute inset-0 w-full h-full overflow-hidden">
+        <div id="heroCarouselViewport" class="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none">
             <div id="heroCarouselTrack"
                 class="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]">
                 <!-- Slide 01 -->
@@ -344,23 +344,23 @@
             </div>
         </div>
 
-        <!-- Left-Concentrated Subtle Dark Gradient Overlay (Keeps Main Imagery Fully Visible) -->
-        <!-- Requirement 2: from-black/80 via-black/40 to-transparent concentrated on left -->
+        <!-- Responsive Gradient Overlay: Lighter gradient on mobile so images show clearly; side-concentrated on desktop -->
         <div
-            class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-transparent pointer-events-none z-10">
+            class="absolute inset-0 bg-gradient-to-t from-[#040916]/85 via-black/30 to-black/20 sm:bg-gradient-to-r sm:from-black/85 sm:via-black/45 sm:to-transparent pointer-events-none z-[1]">
         </div>
-        <!-- Soft top & bottom atmospheric edges for seamless page integration -->
+        <!-- Desktop-only top blend for seamless navigation bar integration -->
         <div
-            class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#060d1d]/85 to-transparent pointer-events-none z-10">
+            class="hidden sm:block absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#060d1d]/80 to-transparent pointer-events-none z-[2]">
         </div>
+        <!-- Subtle bottom blend for seamless transition to the next section -->
         <div
-            class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#030712] via-[#030712]/50 to-transparent pointer-events-none z-10">
+            class="absolute inset-x-0 bottom-0 h-16 sm:h-28 bg-gradient-to-t from-[#030712]/90 via-[#030712]/30 to-transparent pointer-events-none z-[2]">
         </div>
 
-        <!-- Left-Aligned Foreground Content Layer Over Left Overlay -->
+        <!-- Foreground Content Layer (z-10, Transparent Background, Centered/Aligned) -->
         <div
-            class="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col justify-center pointer-events-none">
-            <div class="max-w-xl lg:max-w-2xl text-left pointer-events-auto reveal">
+            class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col justify-center pointer-events-none bg-transparent">
+            <div class="max-w-xl lg:max-w-2xl text-left pointer-events-auto reveal bg-transparent">
 
                 <!-- Status Pill -->
                 <div
@@ -430,19 +430,19 @@
 
         <!-- Sleek Side Arrow Navigation (Automotive Style) -->
         <button type="button" onclick="prevHeroSlide(event)" aria-label="Previous Slide"
-            class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-amber-500 text-white hover:text-black border border-white/20 hover:border-amber-400 backdrop-blur-md flex items-center justify-center transition-all z-30 shadow-2xl active:scale-95 group">
+            class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-amber-500 text-white hover:text-black border border-white/20 hover:border-amber-400 backdrop-blur-md flex items-center justify-center transition-all z-20 shadow-2xl active:scale-95 group">
             <i
-                class="fa-solid fa-chevron-left text-sm sm:text-base transition-transform group-hover:-translate-x-0.5"></i>
+                class="fa-solid fa-chevron-left text-xs sm:text-base transition-transform group-hover:-translate-x-0.5"></i>
         </button>
         <button type="button" onclick="nextHeroSlide(event)" aria-label="Next Slide"
-            class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-amber-500 text-white hover:text-black border border-white/20 hover:border-amber-400 backdrop-blur-md flex items-center justify-center transition-all z-30 shadow-2xl active:scale-95 group">
+            class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-amber-500 text-white hover:text-black border border-white/20 hover:border-amber-400 backdrop-blur-md flex items-center justify-center transition-all z-20 shadow-2xl active:scale-95 group">
             <i
-                class="fa-solid fa-chevron-right text-sm sm:text-base transition-transform group-hover:translate-x-0.5"></i>
+                class="fa-solid fa-chevron-right text-xs sm:text-base transition-transform group-hover:translate-x-0.5"></i>
         </button>
 
         <!-- Bottom Indicators & Controls Bar -->
         <div
-            class="absolute bottom-5 sm:bottom-6 inset-x-0 z-30 flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pointer-events-none">
+            class="absolute bottom-4 sm:bottom-6 inset-x-0 z-20 flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pointer-events-none">
             <!-- 11 Indicator Dots -->
             <div id="heroSliderDots"
                 class="flex items-center gap-2 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 pointer-events-auto shadow-xl">
