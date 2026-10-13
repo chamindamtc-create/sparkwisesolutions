@@ -285,7 +285,7 @@
         <!-- Full-Width Carousel Viewport & Sliding Track (100% Width, All 11 Widescreen Banners) -->
         <div id="heroCarouselViewport" class="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none">
             <div id="heroCarouselTrack"
-                class="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                style="display:flex;height:100%;width:100%;will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden;transition:transform 700ms cubic-bezier(0.25,1,0.5,1);">
                 <!-- Slide 01 -->
                 <div class="w-full h-full flex-shrink-0 relative overflow-hidden">
                     <img src="banner/banner-1.jpg" onerror="handleBannerImgError(this, 1)" alt=""
@@ -3254,7 +3254,12 @@
         function updateHeroSliderUI() {
             const track = document.getElementById('heroCarouselTrack');
             if (track) {
-                track.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
+                // Use pixel-based translation for reliable rendering on low-end phones (Redmi A10, etc.)
+                // Percentage-based translateX can fail when flex container width is not fully resolved
+                const viewport = document.getElementById('heroCarouselViewport');
+                const slideWidth = viewport ? viewport.offsetWidth : track.offsetWidth;
+                const translatePx = currentHeroSlide * slideWidth;
+                track.style.transform = `translate3d(-${translatePx}px, 0, 0)`;
             }
 
             const counter = document.getElementById('heroSlideCounter');
@@ -3352,9 +3357,30 @@
             }
         }
 
+        // Re-calculate slide position on window resize / orientation change (important for mobile)
+        (function () {
+            function recalcHeroSlider() {
+                updateHeroSliderUI();
+            }
+            if (typeof ResizeObserver !== 'undefined') {
+                const viewport = document.getElementById('heroCarouselViewport');
+                if (viewport) {
+                    const ro = new ResizeObserver(recalcHeroSlider);
+                    ro.observe(viewport);
+                }
+            }
+            window.addEventListener('resize', recalcHeroSlider, { passive: true });
+            window.addEventListener('orientationchange', function () {
+                // Small delay to allow browser to finish rotation layout
+                setTimeout(recalcHeroSlider, 300);
+            }, { passive: true });
+        })();
+
         // Initialize hero slider on page load
         initHeroSliderDots();
         startHeroSliderTimer();
+        // Force correct position after full page layout
+        requestAnimationFrame(function () { requestAnimationFrame(updateHeroSliderUI); });
 
         // Initialize saved language or default to 'si'
         const initialLang = (typeof localStorage !== 'undefined' && localStorage.getItem('prowire_lang')) || 'si';
